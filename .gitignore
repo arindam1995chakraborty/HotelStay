@@ -1,0 +1,10 @@
+# --- UI Project Rules ---
+/HotelStay.UI/node_modules/
+/HotelStay.UI/dist/
+/HotelStay.UI/.next/
+
+# --- API Project Rules ---
+/HotelStay.API/target/
+/HotelStay.API/HotelStay.API/bin/
+/HotelStay.API/HotelStay.API/obj/
+/HotelStay.API/.vs/
