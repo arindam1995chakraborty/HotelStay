@@ -2,6 +2,7 @@
 /HotelStay.UI/node_modules/
 /HotelStay.UI/dist/
 /HotelStay.UI/.next/
+/HotelStay.UI/.vscode/
 
 # --- API Project Rules ---
 /HotelStay.API/target/
