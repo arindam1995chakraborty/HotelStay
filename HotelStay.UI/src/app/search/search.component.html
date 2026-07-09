@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Search Hotels</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label>Destination</label>
+      <input formControlName="destination" />
+    </div>
+    <div>
+      <label>Check-in</label>
+      <input type="date" formControlName="checkIn" />
+    </div>
+    <div>
+      <label>Check-out</label>
+      <input type="date" formControlName="checkOut" />
+    </div>
+    <div>
+      <label>Room type (optional)</label>
+      <select formControlName="roomType">
+        <option value="">Any</option>
+        <option value="Standard">Standard</option>
+        <option value="Deluxe">Deluxe</option>
+        <option value="Suite">Suite</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit">Search</button>
+    </div>
+  </form>
+</div>

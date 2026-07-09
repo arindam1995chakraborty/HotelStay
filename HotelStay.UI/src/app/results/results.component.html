@@ -1,0 +1,33 @@
+<div>
+  <h2>Results</h2>
+  <div *ngIf="loading">Loading…</div>
+  <div *ngIf="error">Error: {{ error.detail || error.title || (error | json) }}</div>
+  <div *ngIf="results?.length">
+    <button (click)="toggleSort()">Sort by total price ({{ sortAsc ? 'asc' : 'desc' }})</button>
+    <table>
+      <thead>
+        <tr>
+          <th>Provider</th>
+          <th>Room</th>
+          <th>Per-night</th>
+          <th>Total</th>
+          <th>Cancellation</th>
+          <th>Rating</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of results">
+          <td><strong>{{ r.provider }}</strong></td>
+          <td>{{ r.roomType }} ({{ r.roomId }})</td>
+          <td>{{ r.perNightRate | number:'1.2-2' }}</td>
+          <td>{{ r.totalPrice | number:'1.2-2' }}</td>
+          <td>{{ r.cancellationPolicy }}</td>
+          <td>{{ r.rating }}</td>
+          <td><button (click)="reserve(r)">Reserve</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!loading && !results?.length">No results</div>
+</div>

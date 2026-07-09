@@ -1,0 +1,21 @@
+.results-wrap {
+  max-width: 900px;
+  margin: 1.25rem auto;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+}
+
+.toolbar { display:flex; justify-content:space-between; align-items:center; gap:0.5rem; margin-bottom:0.75rem }
+button.toggle { background:#f3f4f6; border:1px solid #e6e6e6; padding:0.4rem 0.6rem; border-radius:6px }
+
+table { width:100%; border-collapse:collapse; font-size:0.95rem }
+th, td { padding:0.6rem; border-bottom:1px solid #f1f1f1 }
+tbody tr:hover { background: #fbfdff }
+th { text-align:left; color:#666; font-weight:600 }
+td strong { color:#0b69ff }
+
+.empty { text-align:center; color:#666; padding:1rem }
+
+@media (max-width:700px){ table, thead, tbody, th, td, tr { display:block } thead { display:none } tr { margin-bottom:0.8rem } td { padding-left:50% ; position:relative } td::before { position:absolute; left:12px; width:40%; white-space:nowrap; font-weight:600; color:#444 } td:nth-of-type(1)::before{content:"Provider"} td:nth-of-type(2)::before{content:"Room"} td:nth-of-type(3)::before{content:"Per-night"} td:nth-of-type(4)::before{content:"Total"} td:nth-of-type(5)::before{content:"Cancellation"} td:nth-of-type(6)::before{content:"Rating"} td:nth-of-type(7)::before{content:""} }

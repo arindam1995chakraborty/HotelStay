@@ -1,0 +1,14 @@
+.confirmation-card {
+  max-width: 720px;
+  margin: 1.25rem auto;
+  background: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+}
+
+.field { display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px dashed #f1f1f1 }
+.field .label { color:#666 }
+.total { font-size:1.15rem; font-weight:700; color:#0b69ff }
+
+@media (max-width:600px){ .field { flex-direction:column; gap:0.25rem } }

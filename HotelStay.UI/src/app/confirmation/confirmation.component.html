@@ -1,0 +1,14 @@
+<div>
+  <h2>Reservation Confirmation</h2>
+  <div *ngIf="loading">Loading…</div>
+  <div *ngIf="error">Error: {{ error.detail || error.title || (error | json) }}</div>
+  <div *ngIf="model">
+    <p><strong>Reference:</strong> {{ model.reference }}</p>
+    <p><strong>Provider:</strong> {{ model.provider }}</p>
+    <p><strong>Guest:</strong> {{ model.guestName }}</p>
+    <p><strong>Total:</strong> {{ model.totalPrice | number:'1.2-2' }}</p>
+    <p><strong>Cancellation:</strong> {{ model.cancellationPolicy }}</p>
+    <p><strong>Check-in:</strong> {{ model.checkIn }} <strong>Check-out:</strong> {{ model.checkOut }}</p>
+    <p><strong>Destination:</strong> {{ model.destination }}</p>
+  </div>
+</div>

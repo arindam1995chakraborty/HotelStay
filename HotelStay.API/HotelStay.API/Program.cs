@@ -6,6 +6,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS - allow local frontend during development
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:4200",
+            "https://localhost:4200",
+            "http://localhost:5173",
+            "https://localhost:5173"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 // register providers and in-memory store and services
 builder.Services.AddSingleton<HotelStay.API.Stores.InMemoryReservationStore>();
 builder.Services.AddScoped<HotelStay.API.Providers.IHotelProvider, HotelStay.API.Providers.PremierStaysProvider>();
@@ -22,6 +38,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS policy
+app.UseCors("AllowLocalhost");
 
 app.UseAuthorization();
 

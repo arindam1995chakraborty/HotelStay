@@ -1,0 +1,31 @@
+<div>
+  <h2>Reservation</h2>
+  <div *ngIf="error">{{ error.detail || error.title || (error | json) }}</div>
+  <div>
+    <p>Provider: {{ provider }}</p>
+    <p>Room: {{ roomId }}</p>
+    <p>Destination: {{ destination }}</p>
+    <p>Check-in: {{ checkIn }} - Check-out: {{ checkOut }}</p>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label>Guest name</label>
+      <input formControlName="guestName" />
+    </div>
+    <div>
+      <label>Document type</label>
+      <select formControlName="documentType">
+        <option value="Passport">Passport</option>
+        <option value="NationalID">NationalID</option>
+      </select>
+    </div>
+    <div>
+      <label>Document number</label>
+      <input formControlName="documentNumber" />
+    </div>
+    <div>
+      <button type="submit" [disabled]="submitting">Reserve</button>
+    </div>
+  </form>
+</div>
