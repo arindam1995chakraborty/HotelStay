@@ -8,5 +8,7 @@
 /HotelStay.API/target/
 /HotelStay.API/HotelStay.API/bin/
 /HotelStay.API/HotelStay.API/obj/
+/HotelStay.API/HotelStay.Tests/obj/
+/HotelStay.API/HotelStay.Tests/bin/
 /HotelStay.API/.vs/
 /.vs/

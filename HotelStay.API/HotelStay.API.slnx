@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="HotelStay.API/HotelStay.API.csproj" />
+  <Project Path="HotelStay.Tests/HotelStay.Tests.csproj" Id="c51488d2-36f6-42ee-ade1-9353b07b3632" />
 </Solution>
