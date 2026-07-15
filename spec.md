@@ -1,9 +1,9 @@
-# HotelStay — Spec (Data models & interface contracts)
+# HotelStay — spec (Data models & interface contracts)
 
 This document describes the canonical data models and service/controller contracts implemented in the repository.
 
 Models (C# DTOs)
-------------------
+-------------------
 - ProviderRoom (provider internal representation)
   - Provider: string
   - RoomId: string
