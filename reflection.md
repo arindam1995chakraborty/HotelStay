@@ -5,6 +5,7 @@ This project implements a working demo of hotel search + booking with a .NET 8 A
 1. Integration & E2E tests
    - Add WebApplicationFactory-based integration tests for the API to validate serialization, routing and ProblemDetails responses.
    - Add Playwright or Cypress end-to-end tests covering the full UI flow (search -> reserve -> confirm).
+   - UI side unit tests
 
 2. Stronger typing & DTO generation
    - Generate TypeScript DTOs from C# models (NSwag or custom script) to avoid manual mapping and keep client/server contracts in sync.
@@ -32,5 +33,7 @@ This project implements a working demo of hotel search + booking with a .NET 8 A
 
 10. Performance and UX
 	- Debounce search, add skeleton loading UI, and use pagination or lazy-loading if result sets grow.
+
+11. Add Client Side Validations
 
 These changes would move the sample from a demo to a more production-like, maintainable baseline while keeping the code intentionally simple for learning.

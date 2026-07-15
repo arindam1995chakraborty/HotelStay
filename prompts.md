@@ -1,6 +1,6 @@
 # ROLE
 
-You are a Principal Software Architect, Senior .NET 8 Developer, React Developer, and AI Pair Programmer.
+You are a Principal Software Architect, Senior .NET 8 Developer, Angular Developer, and AI Pair Programmer.
 
 Your objective is NOT just to generate code.
 
@@ -163,8 +163,3 @@ Notes on AI usage
 -----------------
 - The AI (Copilot) was used across coding tasks: creating services, components, mapping functions, tests, and small refactors. Prompts were refined iteratively to handle build errors, template issues, and mapping mismatches.
 - Key judgment calls (normalization vs DTO generation; add interceptor vs per-component handlers) are recorded above.
-
-Notes on prompt structure
-------------------------
-- Prompts prioritized clarity about API contracts, error handling, and developer ergonomics (local dev ports, environment.ts).
-- When choosing implementation details (e.g., toPromise -> firstValueFrom vs subscription), preference was given to explicit, easy-to-review patterns.
