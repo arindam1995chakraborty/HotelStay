@@ -10,16 +10,24 @@ namespace HotelStay.API.Providers
     public class BudgetNestsProvider : IHotelProvider
     {
         public string ProviderId => "BudgetNests";
+        // Simulate snake_case provider with availability rules based on explicit unavailable cities
+        private static readonly HashSet<string> UnavailableCities = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "Nowhere",
+            "ClosedCity",
+            "Xville"
+        };
 
         public Task<IEnumerable<ProviderRoom>> SearchAsync(string destination, DateOnly checkIn, DateOnly checkOut, RoomType? roomType)
         {
             var nights = (checkOut.ToDateTime(TimeOnly.MinValue) - checkIn.ToDateTime(TimeOnly.MinValue)).Days;
-            // This provider may mark some rooms as unavailable depending on destination
+            bool isAvailable = !UnavailableCities.Contains(destination ?? string.Empty);
+
             var baseRooms = new List<ProviderRoom>
             {
-                new ProviderRoom(ProviderId, "BN-101", RoomType.Standard, 60m, 60m * nights, "Flexible up to 24h", true, 3),
-                new ProviderRoom(ProviderId, "BN-102", RoomType.Deluxe, 90m, 90m * nights, "Flexible up to 24h", destination.ToLowerInvariant().StartsWith("x") ? false : true, 3),
-                new ProviderRoom(ProviderId, "BN-201", RoomType.Suite, 150m, 150m * nights, "NonRefundable", true, 4)
+                new ProviderRoom(ProviderId, "BN-101", RoomType.Standard, 60m, 60m * nights, "Flexible up to 24h", isAvailable, 3),
+                new ProviderRoom(ProviderId, "BN-102", RoomType.Deluxe, 90m, 90m * nights, "Flexible up to 24h", isAvailable, 3),
+                new ProviderRoom(ProviderId, "BN-201", RoomType.Suite, 150m, 150m * nights, "NonRefundable", isAvailable, 4)
             };
 
             if (roomType.HasValue)

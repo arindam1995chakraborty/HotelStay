@@ -9,33 +9,24 @@ using HotelStay.API.Utils;
 
 namespace HotelStay.API.Controllers
 {
-    [ApiController]
-    [Route("hotels")]
-    public class HotelsController : ControllerBase
+    public  static class HotelsController
     {
-        private readonly IHotelService _hotelService;
 
-        public HotelsController(IHotelService hotelService)
-        {
-            _hotelService = hotelService;
-        }
-
-        [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string? destination, [FromQuery] string? checkIn, [FromQuery] string? checkOut, [FromQuery] string? roomType)
+        public static async Task<IResult> Search(string? destination, string? checkIn, string? checkOut, string? roomType, IHotelService hotelService)
         {
             if (string.IsNullOrWhiteSpace(destination) || string.IsNullOrWhiteSpace(checkIn) || string.IsNullOrWhiteSpace(checkOut))
             {
-                return BadRequest(Problem("destination, checkIn and checkOut are required"));
+                return Results.BadRequest(new ProblemDetails { Title = "Invalid request", Detail = "destination, checkIn and checkOut are required" });
             }
 
             if (!DateOnly.TryParse(checkIn, out var ci) || !DateOnly.TryParse(checkOut, out var co))
             {
-                return BadRequest(Problem("checkIn and checkOut must be valid dates in ISO format (yyyy-MM-dd)"));
+                return Results.BadRequest(new ProblemDetails { Title = "Invalid request", Detail = "checkIn and checkOut must be valid dates in ISO format (yyyy-MM-dd)" });
             }
 
             if (co <= ci)
             {
-                return BadRequest(Problem("checkOut must be after checkIn"));
+                return Results.BadRequest(new ProblemDetails { Title = "Invalid request", Detail = "checkOut must be after checkIn" });
             }
 
             RoomType? rt = null;
@@ -44,58 +35,30 @@ namespace HotelStay.API.Controllers
                 rt = parsed;
             }
 
-            var results = await _hotelService.SearchAsync(destination, ci, co, rt);
-            return Ok(results);
+            var results = await hotelService.SearchAsync(destination, ci, co, rt);
+            return Results.Ok(results);
         }
 
-        [HttpPost("reserve")]
-        public async Task<IActionResult> Reserve([FromBody] ReservationRequestDto request)
+        public static async Task<IResult> Reserve(ReservationRequestDto request, IHotelService hotelService)
         {
             if (request == null)
-                return BadRequest(Problem("missing body"));
+                return Results.BadRequest(new ProblemDetails { Title = "Invalid request", Detail = "missing body" });
 
-            // Document validation based on destination
-            var dest = request.Destination ?? string.Empty;
-            bool isInternational = SeedData.InternationalCities.Contains(dest);
-            if (isInternational)
-            {
-                if (!string.Equals(request.DocumentType, "Passport", StringComparison.OrdinalIgnoreCase))
-                {
-                    return UnprocessableEntity(Problem("International destinations require a Passport"));
-                }
-            }
-            else
-            {
-                // Domestic accepts NationalID or Passport
-                if (!string.Equals(request.DocumentType, "NationalID", StringComparison.OrdinalIgnoreCase) && !string.Equals(request.DocumentType, "Passport", StringComparison.OrdinalIgnoreCase))
-                {
-                    return UnprocessableEntity(Problem("Domestic destinations require NationalID (or Passport)"));
-                }
-            }
-
-            var (success, response, error) = await _hotelService.ReserveAsync(request);
+            var (success, response, error) = await hotelService.ReserveAsync(request);
             if (!success)
             {
-                return BadRequest(Problem(error ?? "reservation failed"));
+                return Results.BadRequest(new ProblemDetails { Title = "Invalid request", Detail = error ?? "reservation failed" });
             }
 
-            return CreatedAtAction(nameof(GetReservation), new { reference = response!.Reference }, response);
+            return Results.Created($"/hotels/reservation/{response!.Reference}", response);
         }
-
-        [HttpGet("reservation/{reference}")]
-        public IActionResult GetReservation(string reference)
+        public static IResult GetReservation(string reference, IHotelService hotelService)
         {
-            if (_hotelService.TryGetReservation(reference, out var response))
+            if (hotelService.TryGetReservation(reference, out var response))
             {
-                return Ok(response);
+                return Results.Ok(response);
             }
-
-            return NotFound();
-        }
-
-        private ProblemDetails Problem(string detail)
-        {
-            return new ProblemDetails { Title = "Invalid request", Detail = detail };
+            return Results.NotFound();
         }
     }
 }

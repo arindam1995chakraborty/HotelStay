@@ -1,8 +1,10 @@
+using HotelStay.API.Controllers;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// We use Minimal APIs (no MVC controllers) per assignment requirements.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -42,8 +44,14 @@ app.UseHttpsRedirection();
 // Use CORS policy
 app.UseCors("AllowLocalhost");
 
-app.UseAuthorization();
+// Minimal API endpoints
+// GET /hotels/search
+app.MapGet("/hotels/search", HotelsController.Search);
 
-app.MapControllers();
+// POST /hotels/reserve
+app.MapPost("/hotels/reserve", HotelsController.Reserve);
+
+// GET /hotels/reservation/{reference}
+app.MapGet("/hotels/reservation/{reference}", HotelsController.GetReservation);
 
 app.Run();

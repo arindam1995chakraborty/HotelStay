@@ -1,10 +1,11 @@
+using HotelStay.API.Models;
+using HotelStay.API.Providers;
+using HotelStay.API.Stores;
+using HotelStay.API.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HotelStay.API.Models;
-using HotelStay.API.Providers;
-using HotelStay.API.Stores;
 
 namespace HotelStay.API.Services
 {
@@ -38,6 +39,25 @@ namespace HotelStay.API.Services
             if (provider == null)
             {
                 return (false, null, "Unknown provider");
+            }
+
+            // Document validation based on destination
+            var dest = request.Destination ?? string.Empty;
+            bool isInternational = SeedData.InternationalCities.Contains(dest);
+            if (isInternational)
+            {
+                if (!string.Equals(request.DocumentType, "Passport", StringComparison.OrdinalIgnoreCase))
+                {
+                    return (false, null, "International destinations require a Passport");
+                }
+            }
+            else
+            {
+                // Domestic accepts NationalID or Passport
+                if (!string.Equals(request.DocumentType, "NationalID", StringComparison.OrdinalIgnoreCase) && !string.Equals(request.DocumentType, "Passport", StringComparison.OrdinalIgnoreCase))
+                {
+                    return (false, null, "Domestic destinations require NationalID (or Passport)");
+                }
             }
 
             var res = await provider.ReserveAsync(request.RoomId, request.GuestName, request.DocumentType, request.DocumentNumber, request.CheckIn, request.CheckOut);

@@ -7,14 +7,19 @@ namespace HotelStay.API.Utils
         public static readonly HashSet<string> DomesticCities = new(StringComparer.OrdinalIgnoreCase)
         {
             "Seattle",
-            "Portland"
+            "Portland",
+            "Kolkata",
+            "New York",
+            "San Francisco"
         };
 
         public static readonly HashSet<string> InternationalCities = new(StringComparer.OrdinalIgnoreCase)
         {
             "Paris",
             "Tokyo",
-            "Sydney"
+            "Sydney",
+            "London",
+            "Berlin"
         };
     }
 }
