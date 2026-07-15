@@ -3,7 +3,7 @@
 This document describes the canonical data models and service/controller contracts implemented in the repository.
 
 Models (C# DTOs)
--------------------
+------------------
 - ProviderRoom (provider internal representation)
   - Provider: string
   - RoomId: string
