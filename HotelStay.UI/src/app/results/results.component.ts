@@ -87,7 +87,9 @@ export class ResultsComponent implements OnInit, OnDestroy {
       roomId: item.roomId,
       destination: this.route.snapshot.queryParamMap.get('destination') ?? '',
       checkIn: this.route.snapshot.queryParamMap.get('checkIn') ?? '',
-      checkOut: this.route.snapshot.queryParamMap.get('checkOut') ?? ''
+      checkOut: this.route.snapshot.queryParamMap.get('checkOut') ?? '',
+      perNightRate: item.perNightRate,
+      cancellationPolicy: item.cancellationPolicy
     };
     this.router.navigate(['/reserve'], { queryParams: qp });
   }

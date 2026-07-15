@@ -25,8 +25,14 @@ export class ReservationComponent implements OnInit {
   destination = '';
   checkIn = '';
   checkOut = '';
+  perNightRate: number | null = null;
+  cancellationPolicy = '';
   submitting = false;
   error: any = null;
+
+  // Client-side known city lists (mirror server SeedData for fast validation)
+  private readonly INTERNATIONAL_CITIES = ['Paris','Tokyo','Sydney','London','Berlin'];
+  private readonly DOMESTIC_CITIES = ['Seattle','Portland','Kolkata','New York','San Francisco'];
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -39,13 +45,32 @@ export class ReservationComponent implements OnInit {
     this.destination = qp.get('destination') ?? '';
     this.checkIn = qp.get('checkIn') ?? '';
     this.checkOut = qp.get('checkOut') ?? '';
+    const pn = qp.get('perNightRate');
+    if (pn) this.perNightRate = Number(pn);
+    this.cancellationPolicy = qp.get('cancellationPolicy') ?? '';
+  }
+
+  // Check client-side document validity according to destination
+  isDocumentValid(): boolean {
+    const v = this.form.value as any;
+    const dest = this.destination ?? '';
+    if (!v || !v.documentType) return false;
+    if (this.INTERNATIONAL_CITIES.includes(dest)) {
+      return v.documentType === 'Passport';
+    }
+    return ["Passport","NationalID"].includes(v.documentType);
   }
 
   async submit() {
     if (this.form.invalid) return;
+    // client-side document enforcement
+    const v = this.form.value as any;
+    if (!this.isDocumentValid()) {
+      this.error = { title: 'Invalid document', detail: this.INTERNATIONAL_CITIES.includes(this.destination) ? 'International destinations require a Passport' : 'Domestic destinations require NationalID (or Passport)' };
+      return;
+    }
     this.submitting = true;
     this.error = null;
-    const v = this.form.value as any;
     const req: ReservationRequest = {
       guestName: v.guestName,
       documentType: v.documentType,
